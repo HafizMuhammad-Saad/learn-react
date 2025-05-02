@@ -1,70 +1,31 @@
-import { useState } from 'react'
-import './App.css'
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Sidebar from './components/sidebar';
+import Dashboard from './pages/dashboard';
+import Users from './pages/user';
+import PracticeCode from './pages/practiceCode';
+import Profile from './pages/profile';
+// import Settings from './pages/Settings';
+import './App.css';
 
 function App() {
-  const [count, setCount] = useState(0)
-  const [text, setText] = useState(true)
-const [showText, setShowText] = useState('')
-const [bgColor, setBgColor] = useState({
-  backgroundColor: 'linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%)',
-  color: 'black'
-})
-
-const changeStyle = () => {
-  setBgColor(prev => ({
-    backgroundColor: prev.backgroundColor.includes('89f7fe') 
-      ? 'linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%)' 
-      : 'linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%)',
-    color: prev.color === 'black' ? 'white' : 'black'
-  }))
-
-}
-const [array, setArray] = useState([])
-
-
-  
-  function handleIncrease() {
-    setCount(count + 1)
-  }
-
-  
-  function handleAdd() {
-    setCount(count + 1)
-    setArray([...array, {text :'item added', id: count}])
-  }
-
+ 
   return (
-    <div className="app" style={{ background: bgColor.backgroundColor, color: bgColor.color }}>
-      <div className="container">
-        <h1 className="title">React useState Practice 🚀</h1>
-
-        <div className="button-group">
-          <button className="btn" onClick={handleAdd}>➕ Add Text</button>
-          <button className="btn" onClick={handleIncrease}>⬆️ Increase Count</button>
-          <button className="btn" onClick={() => setText(!text)}>{text ? '🔛 ON' : '🔴 OFF'}</button>
-          <button className="btn" onClick={changeStyle}>🎨 Change BG Color</button>
+    <Router>
+      <div className="app">
+        <Sidebar />
+        <div className="content">
+          <Routes>
+            <Route path='/' element={<Dashboard />} />
+            <Route path='/users' element={<Users />} />
+            <Route path='/profile' element={<Profile />} />
+            <Route path='/practice' element={<PracticeCode />} />
+            {/* <Route path='/settings' element={<Settings />} /> */}
+          </Routes>
         </div>
-
-        <p className="count">Current Count: <strong>{count}</strong></p>
-
-        <input 
-          className="input"
-          type="text"
-          onChange={(e) => setShowText(e.target.value)}
-          placeholder="Type something awesome..."
-        />
-        <p className="live-text">{showText}</p>
-
-        <ul className="list">
-          {array.map((item) => (
-            <li key={item.id} className="list-item">
-              {item.text} <span className="item-id">#{item.id}</span>
-            </li>
-          ))}
-        </ul>
       </div>
-    </div>
-  )
+    </Router>
+    )
 }
 
 export default App
